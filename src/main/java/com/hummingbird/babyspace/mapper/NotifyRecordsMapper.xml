@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.babyspace.mapper.NotifyRecordsMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.babyspace.entity.NotifyRecords" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="app_id" property="appId" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="send_msg" property="sendMsg" jdbcType="VARCHAR" />
+    <result column="notify_type" property="notifyType" jdbcType="VARCHAR" />
+    <result column="notify_id" property="notifyId" jdbcType="INTEGER" />
+ <result column="notify_data" property="notifyData" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hummingbird.babyspace.entity.NotifyRecords" extends="BaseResultMap" >
+    <result column="notify_data" property="notifyData" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, app_id, insert_time, update_time, status,send_msg, notify_type, notify_id, notify_data
+  </sql>
+  <sql id="Blob_Column_List" >
+    notify_data
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_tzxt_notify_records
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByNotifyId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_tzxt_notify_records
+    where  notify_id= #{notify_id,jdbcType=INTEGER}
+  </select>
+   <select id="selectNeedNotifyRecords" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_tzxt_notify_records
+    where  status= "CRT" limit 0,1000
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_tzxt_notify_records
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.babyspace.entity.NotifyRecords"  useGeneratedKeys="true" keyProperty="id" >
+    insert into t_tzxt_notify_records (id, app_id, insert_time, 
+      update_time, status,send_msg, notify_type, 
+      notify_id, notify_data)
+    values (#{id,jdbcType=INTEGER}, #{appId,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR},#{sendMsg,jdbcType=VARCHAR}, #{notifyType,jdbcType=VARCHAR}, 
+      #{notifyId,jdbcType=INTEGER}, #{notifyData,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.babyspace.entity.NotifyRecords" >
+    insert into t_tzxt_notify_records
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="appId != null" >
+        app_id,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sendMsg != null" >
+       send_msg,
+      </if>
+      <if test="notifyType != null" >
+        notify_type,
+      </if>
+      <if test="notifyId != null" >
+        notify_id,
+      </if>
+      <if test="notifyData != null" >
+        notify_data,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sendMsg != null" >
+        #{sendMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyType != null" >
+        #{notifyType,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyId != null" >
+        #{notifyId,jdbcType=INTEGER},
+      </if>
+      <if test="notifyData != null" >
+        #{notifyData,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.babyspace.entity.NotifyRecords" >
+    update t_tzxt_notify_records
+    <set >
+      <if test="appId != null" >
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sendMsg != null" >
+        send_msg = #{sendMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyType != null" >
+        notify_type = #{notifyType,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyId != null" >
+        notify_id = #{notifyId,jdbcType=INTEGER},
+      </if>
+      <if test="notifyData != null" >
+        notify_data = #{notifyData,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hummingbird.babyspace.entity.NotifyRecords" >
+    update t_tzxt_notify_records
+    set app_id = #{appId,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      send_msg=#{sendMsg,jdbcType=VARCHAR},
+      notify_type = #{notifyType,jdbcType=VARCHAR},
+      notify_id = #{notifyId,jdbcType=INTEGER},
+      notify_data = #{notifyData,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.babyspace.entity.NotifyRecords" >
+    update t_tzxt_notify_records
+    set app_id = #{appId,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      send_msg=#{sendMsg,jdbcType=VARCHAR},
+      notify_type = #{notifyType,jdbcType=VARCHAR},
+      notify_id = #{notifyId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

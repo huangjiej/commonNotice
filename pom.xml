@@ -391,5 +391,5 @@
     </snapshotRepository>
     </distributionManagement>
 	<name>宝贝空间</name>
-	<artifactId>babyspace</artifactId>
+	<artifactId>Inform</artifactId>
 </project>

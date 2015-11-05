@@ -1,10 +1,14 @@
 package com.hummingbird.babyspace.util.Jedis;
 
+import com.hummingbird.common.util.PropertiesUtil;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 public class JedisPoolUtils {
+	static PropertiesUtil pu = new PropertiesUtil();
+	static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(JedisPoolUtils.class);	
 
     private static JedisPool pool;
 
@@ -13,22 +17,46 @@ public class JedisPoolUtils {
      * 
      */
     private static void createJedisPool() {
-
+        if(log.isDebugEnabled()){
+        	log.debug("创建redis连接中");
+        }
         // 建立连接池配置参数
         JedisPoolConfig config = new JedisPoolConfig();
-
+        
+        String maxActivity = pu.getProperty("maxActive");  
+        String maxWait = pu.getProperty("maxWait");
+        String maxIdle = pu.getProperty("maxIdle");
+        String port = pu.getProperty("redisPort");
+        String redisUrl = pu.getProperty("redisUrl");
         // 设置最大连接数
-        config.setMaxActive(100);
-
+        if(maxActivity!=null){
+        	Integer maxactivity = Integer.parseInt(maxActivity);
+        	if(maxactivity!=null&&maxactivity>=0)
+        	config.setMaxActive(maxactivity);
+        }
         // 设置最大阻塞时间，记住是毫秒数milliseconds
-        config.setMaxWait(1000);
-
+        if(maxWait!=null){
+        	Integer maxwait= Integer.parseInt(maxWait);
+        	if(maxwait!=null&&maxwait>=0)
+        		config.setMaxWait(maxwait);
+        }
+       
         // 设置空间连接
-        config.setMaxIdle(10);
-
+        if(maxIdle!=null){
+        	Integer maxidle= Integer.parseInt(maxIdle);
+        	if(maxidle!=null&&maxidle>=0)
+        		config.setMaxIdle(maxidle);
+        }
+        Integer porT = Integer.parseInt(port);
+         try{        
         // 创建连接池
-        pool = new JedisPool(config, "127.0.0.1", 6379);
-
+         pool = new JedisPool(config, redisUrl, porT);
+         }catch(Exception e){
+        	 log.error("redis连接池创建失败"+e);
+         }
+         if(log.isDebugEnabled()){
+        	 log.debug("redis创建连接池成功");
+         }
     }
 
     /**

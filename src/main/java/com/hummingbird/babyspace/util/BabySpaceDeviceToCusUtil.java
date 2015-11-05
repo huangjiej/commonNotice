@@ -51,7 +51,7 @@ public class BabySpaceDeviceToCusUtil{
 				nrDao.updateByPrimaryKeySelective(not);
 			} catch (NONotifySenderException e) {
 				log.error("没有找到对应的发送器"+e.getMessage());
-				not.setStatus(CommonStatusConst.STATUS_OK);
+				not.setStatus(CommonStatusConst.STATUS_FAIL);
 				not.setSendMsg(e.getMessage());
 			}
 		}

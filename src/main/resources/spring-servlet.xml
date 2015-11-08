@@ -6,16 +6,17 @@
 	xsi:schemaLocation="   
     http://www.springframework.org/schema/beans   
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
-    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context     
     http://www.springframework.org/schema/context/spring-context-3.0.xsd
-    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+    http://www.springframework.org/schema/mvc   
+    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd " >
 	
 	<!-- 自动搜索@Controller标注的类 -->
 	<!-- <context:component-scan base-package="com.hummingbird" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 		<context:include-filter type="regex" expression="com.hummingbird.*.controller.* "/>
 	</context:component-scan> -->
-	<context:component-scan base-package="com.hummingbird.babyspace.controller" > 
+	<context:component-scan base-package="com.hummingbird.resourcecenter.notifycenter.controller" > 
 	</context:component-scan>
 	<mvc:annotation-driven /> 
 	<context:annotation-config />

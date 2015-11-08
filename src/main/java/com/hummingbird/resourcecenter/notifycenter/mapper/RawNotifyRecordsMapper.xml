@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.resourcecenter.notifycenter.mapper.RawNotifyRecordsMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.resourcecenter.notifycenter.entity.RawNotifyRecords" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="app_id" property="appId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hummingbird.resourcecenter.notifycenter.entity.RawNotifyRecords" extends="BaseResultMap" >
+    <result column="data" property="data" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, insert_time, app_id, status
+  </sql>
+  <sql id="Blob_Column_List" >
+    data
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_tzxt_raw_notify_records
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_tzxt_raw_notify_records
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.resourcecenter.notifycenter.entity.RawNotifyRecords"  useGeneratedKeys="true" keyProperty="id" >
+    insert into t_tzxt_raw_notify_records (id, insert_time, app_id, 
+      status, data)
+    values (#{id,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP}, #{appId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{data,jdbcType=LONGVARCHAR})
+       <selectKey resultType="int" order="AFTER" keyProperty="id"> 
+        SELECT LAST_INSERT_ID() 
+       </selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.resourcecenter.notifycenter.entity.RawNotifyRecords" >
+    insert into t_tzxt_raw_notify_records
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="appId != null" >
+        app_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="data != null" >
+        data,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="data != null" >
+        #{data,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.resourcecenter.notifycenter.entity.RawNotifyRecords" >
+    update t_tzxt_raw_notify_records
+    <set >
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appId != null" >
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="data != null" >
+        data = #{data,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hummingbird.resourcecenter.notifycenter.entity.RawNotifyRecords" >
+    update t_tzxt_raw_notify_records
+    set insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      app_id = #{appId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      data = #{data,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.resourcecenter.notifycenter.entity.RawNotifyRecords" >
+    update t_tzxt_raw_notify_records
+    set insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      app_id = #{appId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

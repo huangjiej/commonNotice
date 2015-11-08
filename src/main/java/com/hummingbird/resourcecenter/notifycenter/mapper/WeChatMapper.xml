@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hummingbird.resourcecenter.notifycenter.mapper.WeChatMapper" >
+  <resultMap id="BaseResultMap" type="com.hummingbird.resourcecenter.notifycenter.entity.WeChat" >
+    <id column="appid" property="appid" jdbcType="CHAR" />
+    <result column="appsecret" property="appsecret" jdbcType="CHAR" />
+    <result column="token" property="token" jdbcType="CHAR" />
+    <result column="encodingaeskey" property="encodingaeskey" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="access_token" property="accessToken" jdbcType="VARCHAR" />
+    <result column="expires_in" property="expiresIn" jdbcType="INTEGER" />
+    <result column="token_ctime" property="tokenCtime" jdbcType="INTEGER" />
+    <result column="base_url" property="baseUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    appid, appsecret, token, encodingaeskey, name, access_token, expires_in, token_ctime, 
+    base_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wechat
+    where appid = #{appid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_wechat
+    where appid = #{appid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hummingbird.resourcecenter.notifycenter.entity.WeChat" >
+    insert into t_wechat (appid, appsecret, token, 
+      encodingaeskey, name, access_token, 
+      expires_in, token_ctime, base_url
+      )
+    values (#{appid,jdbcType=CHAR}, #{appsecret,jdbcType=CHAR}, #{token,jdbcType=CHAR}, 
+      #{encodingaeskey,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{accessToken,jdbcType=VARCHAR}, 
+      #{expiresIn,jdbcType=INTEGER}, #{tokenCtime,jdbcType=INTEGER}, #{baseUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hummingbird.resourcecenter.notifycenter.entity.WeChat" >
+    insert into t_wechat
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appid != null" >
+        appid,
+      </if>
+      <if test="appsecret != null" >
+        appsecret,
+      </if>
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="encodingaeskey != null" >
+        encodingaeskey,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="accessToken != null" >
+        access_token,
+      </if>
+      <if test="expiresIn != null" >
+        expires_in,
+      </if>
+      <if test="tokenCtime != null" >
+        token_ctime,
+      </if>
+      <if test="baseUrl != null" >
+        base_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appid != null" >
+        #{appid,jdbcType=CHAR},
+      </if>
+      <if test="appsecret != null" >
+        #{appsecret,jdbcType=CHAR},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=CHAR},
+      </if>
+      <if test="encodingaeskey != null" >
+        #{encodingaeskey,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="accessToken != null" >
+        #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="expiresIn != null" >
+        #{expiresIn,jdbcType=INTEGER},
+      </if>
+      <if test="tokenCtime != null" >
+        #{tokenCtime,jdbcType=INTEGER},
+      </if>
+      <if test="baseUrl != null" >
+        #{baseUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hummingbird.resourcecenter.notifycenter.entity.WeChat" >
+    update t_wechat
+    <set >
+      <if test="appsecret != null" >
+        appsecret = #{appsecret,jdbcType=CHAR},
+      </if>
+      <if test="token != null" >
+        token = #{token,jdbcType=CHAR},
+      </if>
+      <if test="encodingaeskey != null" >
+        encodingaeskey = #{encodingaeskey,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="accessToken != null" >
+        access_token = #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="expiresIn != null" >
+        expires_in = #{expiresIn,jdbcType=INTEGER},
+      </if>
+      <if test="tokenCtime != null" >
+        token_ctime = #{tokenCtime,jdbcType=INTEGER},
+      </if>
+      <if test="baseUrl != null" >
+        base_url = #{baseUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where appid = #{appid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hummingbird.resourcecenter.notifycenter.entity.WeChat" >
+    update t_wechat
+    set appsecret = #{appsecret,jdbcType=CHAR},
+      token = #{token,jdbcType=CHAR},
+      encodingaeskey = #{encodingaeskey,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      access_token = #{accessToken,jdbcType=VARCHAR},
+      expires_in = #{expiresIn,jdbcType=INTEGER},
+      token_ctime = #{tokenCtime,jdbcType=INTEGER},
+      base_url = #{baseUrl,jdbcType=VARCHAR}
+    where appid = #{appid,jdbcType=CHAR}
+  </update>
+</mapper>

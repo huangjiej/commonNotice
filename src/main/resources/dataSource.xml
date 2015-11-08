@@ -1,76 +1,105 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx" 
-	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
-    xsi:schemaLocation="   
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="   
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd    
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
      http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
-	
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driver}" />
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 
-		<!--  pool  -->
+		<!-- pool -->
 		<property name="initialSize" value="${pool.initialSize}" />
 		<property name="maxActive" value="${pool.maxActive}" />
 		<property name="maxIdle" value="${pool.maxIdle}" />
 		<property name="maxWait" value="${pool.maxWait}" />
 		<property name="defaultAutoCommit" value="${pool.defaultAutoCommit}" />
-		<property name="removeAbandoned"><value>true</value></property>
-		<!--
-                  超时时间(以秒数为单位)设置超时时间有一个要注意的地方，
-                  超时时间=现在的时间-程序中创建Connection的时间，如果
-                  maxActive比较大，比如超过100，那么removeAbandonedTimeout
-                  可以设置长一点比如180， 也就是三分钟无响应的连接进行回收，
-                  当然应用的不同设置长度也不同。
-       -->
-       <property name="removeAbandonedTimeout" value="${pool.removeAbandonedTimeout}"></property>
-       <!-- 在自动回收超时连接的时候打印连接的超时错误 -->
-       <property name="logAbandoned"><value>true</value></property>
-       <property name="testWhileIdle" value="${pool.testWhileIdle}" />
-       <property name="validationQuery" value="${pool.validationQuery}" />
-       <property name="timeBetweenEvictionRunsMillis" value="${pool.timeBetweenEvictionRunsMillis}" />
-       <property name="numTestsPerEvictionRun" value="${pool.numTestsPerEvictionRun}" />
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<!-- 超时时间(以秒数为单位)设置超时时间有一个要注意的地方， 超时时间=现在的时间-程序中创建Connection的时间，如果 maxActive比较大，比如超过100，那么removeAbandonedTimeout 
+			可以设置长一点比如180， 也就是三分钟无响应的连接进行回收， 当然应用的不同设置长度也不同。 -->
+		<property name="removeAbandonedTimeout" value="${pool.removeAbandonedTimeout}"></property>
+		<!-- 在自动回收超时连接的时候打印连接的超时错误 -->
+		<property name="logAbandoned">
+			<value>true</value>
+		</property>
+		<property name="testWhileIdle" value="${pool.testWhileIdle}" />
+		<property name="validationQuery" value="${pool.validationQuery}" />
+		<property name="timeBetweenEvictionRunsMillis" value="${pool.timeBetweenEvictionRunsMillis}" />
+		<property name="numTestsPerEvictionRun" value="${pool.numTestsPerEvictionRun}" />
 	</bean>
 
 	<!-- 引入支持jdbc的事务管理器 -->
-	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<!-- 注解事务 -->
 	<tx:annotation-driven />
-	
+
 	<!-- 配置SqlSessionFactoryBean -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"/>
-		<!-- mapper和resultmap配置路径 -->   
-       	<property name="mapperLocations">  
-            <list>
-            <!-- 表示在com.yeepay.mapper包或以下所有目录中，以.xml结尾所有文件 --> 
-             <value> classpath:com/hummingbird/babyspace/mapper/*.xml</value > 
-            </list>       
-       	</property>
+		<property name="dataSource" ref="dataSource" />
+		<!-- mapper和resultmap配置路径 -->
+		<property name="mapperLocations">
+			<list>
+				<!-- 表示在com.yeepay.mapper包或以下所有目录中，以.xml结尾所有文件 -->
+				<value>
+					classpath:com/hummingbird/resourcecenter/notifycenter/mapper/*.xml
+				</value>
+			</list>
+		</property>
 	</bean>
-	
+
 	<!--构造sqlSessionTemplate(支持批量) -->
-	<!-- <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg index="0" ref="sqlSessionFactory" />	
-		<constructor-arg index="1" value="BATCH" />			
-	</bean> -->
-	
-	<!-- 自动扫描com.pass.mapper包下的Mapper接口,并实现其功能  -->
+	<!-- <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"> 
+		<constructor-arg index="0" ref="sqlSessionFactory" /> <constructor-arg index="1" 
+		value="BATCH" /> </bean> -->
+
+	<!-- 自动扫描com.pass.mapper包下的Mapper接口,并实现其功能 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.hummingbird.babyspace.mapper" />
+		<property name="basePackage"
+			value="com.hummingbird.resourcecenter.notifycenter.mapper" />
 		<!-- <property name="sessioinFactory" ref="sqlSessionFactory"></property> -->
 	</bean>
-	
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>	
-	
 
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+<!-- 	<context:property-placeholder location="classpath:jedis.properties"
+		ignore-unresolvable="true" />
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool"
+		destroy-method="destroy">
+		<constructor-arg index="0">
+			<bean factory-bean="jedisPoolConfig" factory-method="getConfig" />
+		</constructor-arg>
+		<constructor-arg index="1" value="${${redis.host}}" />
+		<constructor-arg index="2" value="${${redis.port}}" />
+		timeout
+		<constructor-arg index="3" value="${redis.timeout}" />
+		<constructor-arg index="4" value="${${redis.password}}" />
+	</bean>
+	<bean id="jedisPoolConfig" class="com.antilost.redis.util.GenericObjectPoolConfigWrapper">
+		最大连接数
+		<property name="maxActive" value="${${redis.pool.maxActive}}" />
+		最大空闲连接数
+		<property name="maxIdle" value="${${redis.pool.maxIdle}}" />
+		初始化连接数
+		<property name="minIdle" value="${${redis.pool.minIdle}}" />
+		最大等待时间
+		<property name="maxWait" value="${${redis.pool.maxWait}}" />
+		对拿到的connection进行validateObject校验
+		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}" />
+		在进行returnObject对返回的connection进行validateObject校验
+		<property name="testOnReturn" value="${redis.pool.testOnReturn}" />
+		定时对线程池中空闲的链接进行validateObject校验
+		<property name="testWhileIdle" value="true" />
+	</bean> -->
 </beans>

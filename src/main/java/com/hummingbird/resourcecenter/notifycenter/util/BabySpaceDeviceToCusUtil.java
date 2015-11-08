@@ -33,11 +33,12 @@ public class BabySpaceDeviceToCusUtil {
 			sender = NotifyFactory.getNotifySender(not);
 			ResultModel sendresult = sender.sendNotify(new NotifyParameter(not));
 			not.setUpdateTime(new Date());
-			if (sendresult.isSuccessed()) {
+			if (sendresult.getErrcode()==0) {
 				not.setStatus(CommonStatusConst.STATUS_OK);
 			} else {
 				not.setStatus(CommonStatusConst.STATUS_FAIL);
 				not.setSendMsg(sendresult.getErrmsg());
+				
 			}
 			NotifyRecordsMapper nrDao = SpringBeanUtil.getInstance().getBean(NotifyRecordsMapper.class);
 			nrDao.updateByPrimaryKeySelective(not);

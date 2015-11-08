@@ -34,6 +34,7 @@ public class SMSNotifySender implements NotifySender {
 			return rm;
 		}
 		try {
+			
 			Map<String, String> ma = new HashMap<String, String>();
 			String identity = parameter.getNotifyData().getIdentity();
 			String content = parameter.getNotifyData().getContent();
@@ -56,26 +57,35 @@ public class SMSNotifySender implements NotifySender {
 		} catch (RequestException e) {
 			log.error("调用短信接口requst请求失败" + e);
 			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "调用短信接口requst请求失败"));
+		}catch(Exception e){
+			log.error("调用短信接口其他错误" + e);
+			rm.mergeException(ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "调用短信接口请求失败"));
 		}
 		return rm;
 	}
-	/*
-	 * public static void main(String[] args) { Map<String,String> ma =new
-	 * HashMap<String,String>(); String identity =
-	 * parameter.getNotifyData().getIdentity(); String
-	 * content=parameter.getNotifyData().getContent();
-	 * ma.put("user","imap");//未定 ma.put("mobileNum","15739577527");
-	 * ma.put("content", "nihao"); String signature =
-	 * Md5Util.Encrypt(ValidateUtil.sortbyValues("imap","15739577527","nihao",
-	 * "imapsmsgd")); ma.put("signature",signature); HttpRequester hr = new
-	 * HttpRequester(); String postStr =null; try { postStr=
-	 * JsonUtil.convert2Json(ma); } catch (DataInvalidException e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); } String result = null;
-	 * try { result =
-	 * hr.postRequest("http://115.29.211.3:8094/SMSSenderGateway/sms/send",
-	 * postStr); ResultModel rm = JsonUtil.convertJson2Obj(result,
-	 * ResultModel.class); System.out.println(rm.getErrcode()+rm.getErrmsg()); }
-	 * catch (Exception e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); } System.out.println(result); }
-	 */
+	
+	  public static void main(String[] args) 
+	  {
+	  Map<String,String> ma =new HashMap<String,String>();
+
+	  ma.put("user","imap");//未定
+	  ma.put("mobileNum","15739577527");
+	  ma.put("content", "nihao");
+	  String signature =Md5Util.Encrypt(ValidateUtil.sortbyValues("imap","15739577527","nihao","imapsmsgd"));
+	  ma.put("signature",signature);
+	  HttpRequester hr = new HttpRequester(); 
+	  String postStr =null;
+	  try {
+	  postStr=JsonUtil.convert2Json(ma); 
+	  } catch (DataInvalidException e) { 
+		  // TODO Auto-generated catch block
+		  e.printStackTrace(); } 
+	  String result = null;
+	  try { result =
+	  hr.postRequest("http://115.29.211.3:8094/SMSSenderGateway/sms/send",
+	  postStr); ResultModel rm = JsonUtil.convertJson2Obj(result,
+	  ResultModel.class); System.out.println(rm.getErrcode()+rm.getErrmsg()); }
+	  catch (Exception e) { // TODO Auto-generated catch block
+	  e.printStackTrace(); } System.out.println(result); }
+	 
 }

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hummingbird.common.exception.DataInvalidException;
+import com.hummingbird.common.exception.ValidateException;
 import com.hummingbird.common.util.DateUtil;
 import com.hummingbird.common.util.JsonUtil;
 import com.hummingbird.common.util.convertor.DateAdapter;
@@ -97,6 +98,7 @@ public class NotifyServiceImpl implements NotifyService {
 			try {
 				if (nr.getStatus().equals("CRT")) {
 					String note = JsonUtil.convert2Json(nr);
+					System.out.println(note+"-----------");
 					jedis.rpush("notice", note);
 				}
 			} catch (DataInvalidException e) {
@@ -116,7 +118,7 @@ public class NotifyServiceImpl implements NotifyService {
 		DateAdapter da = new DateAdapter();
 		List<NotifyRecords> nrs = nrmDao.selectByNotifyId(notifyId);
 		NotifyQueryResultBodyVO nb = null;
-		List<NotifyQueryResultBodyVO> nqrbs = null;
+		List<NotifyQueryResultBodyVO> nqrbs = new ArrayList<NotifyQueryResultBodyVO>();
 		if (nrs == null) {
 			log.error("NoticeQuery:" + notifyId + "对应的记录不存在");
 			return null;

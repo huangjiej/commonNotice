@@ -27,7 +27,7 @@ public class JedisPoolUtils {
 	/*	config.setMaxActive(1000);
 		config.setMaxIdle(10000000);
 		config.setMaxWait(10000);
-		jedisPool = new JedisPool(config, "127.0.0.1", 6378, 10000, "zengda");*/
+		jedisPool = new JedisPool(config, "127.0.0.1", 6379, 10000, "zengda");*/
 		System.out.println(jedisPool);
 		String maxActivity = pu.getProperty("maxActive");
 		String maxWait = pu.getProperty("maxWait");
@@ -55,19 +55,20 @@ public class JedisPoolUtils {
 			if (maxidle != null && maxidle >= 0)
 				config.setMaxIdle(maxidle);
 		}
-		Integer porT = 6378;
+		Integer porT =  null;
 		if (port != null) {
 			porT = Integer.parseInt(port);
+		}else{
+			log.error("端口号未设置");
+			return;
 		}
 		if (timeOut == null) {
 			timeOut = 10000;
+			
 		}
 		try {
 			// 创建连接池
-			config.setMaxActive(100);
-			config.setMaxIdle(100);
-			config.setMaxWait(10000);
-			jedisPool = new JedisPool(config, redisUrl, 6377, timeOut, password);
+			jedisPool = new JedisPool(config, redisUrl, porT, timeOut, password);
 			if (log.isDebugEnabled()) {
 				log.debug("redis连接池创建成功" + redisUrl + porT + timeOut + password);
 			}
@@ -96,19 +97,7 @@ public class JedisPoolUtils {
 		if (jedisPool == null) {
 			poolInit();
 		}
-		try {
-			jedis = jedisPool.getResource();
-		} catch (JedisException e) {
-			if (log.isDebugEnabled()) {
-				log.debug("jedis获取资源失败");
-			}
-			if (jedis != null) {
-				jedisPool.returnBrokenResource(jedis);
-			}
-			throw e;
-		}
-		jedis.auth("zengda");
-		return jedis;
+		  return jedisPool.getResource();
 	}
 
 	/**
@@ -124,4 +113,6 @@ public class JedisPoolUtils {
 		Jedis jpu = JedisPoolUtils.getJedis();
 		System.out.println(jpu);
 	}
-}
+	  
+	   }
+

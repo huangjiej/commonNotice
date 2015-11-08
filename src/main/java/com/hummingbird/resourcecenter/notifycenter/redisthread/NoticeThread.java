@@ -4,6 +4,7 @@ import java.util.Observable;
 
 import com.hummingbird.common.exception.DataInvalidException;
 import com.hummingbird.common.util.JsonUtil;
+import com.hummingbird.common.vo.ResultModel;
 import com.hummingbird.resourcecenter.notifycenter.entity.NotifyRecords;
 import com.hummingbird.resourcecenter.notifycenter.util.BabySpaceDeviceToCusUtil;
 import com.hummingbird.resourcecenter.notifycenter.util.JedisPoolUtils;

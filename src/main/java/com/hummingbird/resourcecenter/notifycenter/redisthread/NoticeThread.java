@@ -56,10 +56,10 @@ public class NoticeThread extends Observable implements Runnable {
 				JedisPoolUtils.returnRes(jedis);
 				break;
 			}
-			JedisPoolUtils.returnRes(jedis);
-			if (log.isDebugEnabled()) {
-				log.debug("结束线程");
-			}
+		}
+		JedisPoolUtils.returnRes(jedis);
+		if (log.isDebugEnabled()) {
+			log.debug("结束线程");
 		}
 
 	}

@@ -58,15 +58,16 @@ public class NotifyController extends BaseController {
 			return rm;
 		}
 		Integer notifyId = nfs.insertRecordsIntoDatabase(notifyType, vos, appid, jsonstr);
-		if (notifyId == 0) {
-			log.error("insertRecordsIntoDatabase里面调用出现错误:出现空参数");
-		}
 		if (notifyId == null) {
 			log.error("添加通知接口sednnoticefactory方法错误");
 			rm.mergeException(
 					ValidateException.ERROR_PARAM_FORMAT_ERROR.cloneAndAppend(null, "insertRecordsIntoDatabase方法返回空"));
 			return rm;
-		} else {
+		} 
+		if (notifyId == 0) {
+			log.error("insertRecordsIntoDatabase里面调用出现错误:出现空参数");
+		}
+		else {
 			rm.put("notifyId", notifyId);
 			if (log.isDebugEnabled()) {
 				log.debug("添加通知借口插入数据库成功，返回" + notifyId);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>NotifyCenter</name>
+	<name>AlipayPayment</name>
 	<comment></comment>
 	<projects>
 		<project>common</project>
